@@ -31,6 +31,7 @@ jobs:
         echo "${{ matrix.distro }} ${{ matrix.release }} ${{ matrix.kernel }} ${{ matrix.profile }} (${{ matrix.arch }})" > releases/${{ matrix.distro }}/${{ matrix.release }}/${{ matrix.kernel }}/${{ matrix.arch }}
   publish:
     name: Publish
+    needs: build
     runs-on: ubuntu-20.04
     steps:
     - name: Check Build
