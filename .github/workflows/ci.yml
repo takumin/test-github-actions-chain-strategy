@@ -27,8 +27,8 @@ jobs:
         fetch-depth: 1
     - name: Dummy Build
       run: |
-        mkdir -p releases/${{ matrix.distro }}/${{ matrix.release }}/${{ matrix.kernel }}/${{ matrix.arch }}
-        echo "${{ matrix.distro }} ${{ matrix.release }} ${{ matrix.kernel }} ${{ matrix.profile }} (${{ matrix.arch }})" > releases/${{ matrix.distro }}/${{ matrix.release }}/${{ matrix.kernel }}/${{ matrix.arch }}
+        mkdir -p releases/${{ matrix.distro }}/${{ matrix.release }}/${{ matrix.kernel }}/${{ matrix.arch }}/${{ matrix.profile }}
+        echo "${{ matrix.distro }} ${{ matrix.release }} ${{ matrix.kernel }} ${{ matrix.profile }} (${{ matrix.arch }})" > releases/${{ matrix.distro }}/${{ matrix.release }}/${{ matrix.kernel }}/${{ matrix.arch }}/${{ matrix.profile }}/file
   publish:
     name: Publish
     needs: build
