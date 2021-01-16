@@ -1,0 +1,37 @@
+name: CI
+on:
+  push:
+    branches:
+    - main
+jobs:
+  build:
+    name: ${{ matrix.distro }} ${{ matrix.release }} ${{ matrix.kernel }} ${{ matrix.profile }} (${{ matrix.arch }})
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        distro:  [ubuntu]
+        arch:    [amd64, arm64]
+        release: [bionic, focal]
+        kernel:  [generic, generic-hwe]
+        profile: [server, server-nvidia, desktop, desktop-nvidia]
+        exclude:
+        - arch: arm64
+          profile: server-nvidia
+        - arch: arm64
+          profile: desktop-nvidia
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        submodules: true
+        fetch-depth: 1
+    - name: Dummy Build
+      run: |
+        mkdir -p releases/${{ matrix.distro }}/${{ matrix.release }}/${{ matrix.kernel }}/${{ matrix.arch }}
+        echo "${{ matrix.distro }} ${{ matrix.release }} ${{ matrix.kernel }} ${{ matrix.profile }} (${{ matrix.arch }})" > releases/${{ matrix.distro }}/${{ matrix.release }}/${{ matrix.kernel }}/${{ matrix.arch }}
+  publish:
+    name: Publish
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Check Build
+      run: find releases
